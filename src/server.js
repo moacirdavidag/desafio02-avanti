@@ -5,6 +5,8 @@ import express from "express";
 // Instanciação do servidor
 const app = express();
 
+import { router as jogadorRoutes } from "./routes/JogadorRoutes.js";
+
 // Configurações da aplicação
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +18,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.status(200).send("Olá, mundo!");
 })
+
+app.use(jogadorRoutes);
 
 // Inicialização do servidor
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
