@@ -1,12 +1,11 @@
 // Importação das dependências necessárias
 import express from "express";
-// import { router } from "./routes";
 
 // Instanciação do servidor
 const app = express();
 
 import { router as jogadorRoutes } from "./routes/JogadorRoutes.js";
-
+import { router as campeonatoRoutes } from "./routes/CampeonatoRoutes.js";
 // Configurações da aplicação
 const PORT = process.env.PORT || 3000;
 
@@ -20,6 +19,7 @@ app.get("/", (req, res) => {
 })
 
 app.use(jogadorRoutes);
+app.use(campeonatoRoutes);
 
 // Inicialização do servidor
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
