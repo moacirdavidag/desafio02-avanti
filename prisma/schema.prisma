@@ -19,3 +19,15 @@ model Campeonato {
 
   @@map("campeonatos")
 }
+
+model Time{
+ id             Int   @id @default(autoincrement())
+ nome           String
+ fundacao       DateTime
+ jogadores      Jogador[]  //Relacionamento "um para muitos"
+ campeonatos    Campeonato[] // Relacionamento "muitos para muitos"
+
+}
+
+
+
