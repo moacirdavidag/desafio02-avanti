@@ -10,3 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Campeonato {
+  id         String   @id @default(uuid())
+  nome       String
+  data_inicio   DateTime
+  data_fim      DateTime
+  created_at DateTime @default(now())
+
+  @@map("campeonatos")
+}
