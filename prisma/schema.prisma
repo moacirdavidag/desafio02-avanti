@@ -17,15 +17,17 @@ model Campeonato {
   data_fim    DateTime
   created_at  DateTime @default(now())
   Time        Time?    @relation(fields: [timeId], references: [id])
-  timeId      Int?
+  timeId      String?
 
   @@map("campeonatos")
 }
 
 model Time {
-  id          Int          @id @default(autoincrement())
+  id          String       @id @default(uuid())
   nome        String
   fundacao    DateTime
   //  jogadores      Jogador[]  //Relacionamento "um para muitos"
   campeonatos Campeonato[] // Relacionamento "muitos para muitos"
+
+  @@map("times")
 }
