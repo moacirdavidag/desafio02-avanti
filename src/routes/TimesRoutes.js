@@ -1,5 +1,6 @@
 const express = require('express');
-const { PrismaClient } = require('@prisma/client');
+import { prismaClient } from "../database/prisma-client-js.js";
+
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -7,7 +8,7 @@ const prisma = new PrismaClient();
 // Listar todos os times
 router.get('/times', async (req, res) => {
   try {
-    const times = await prisma.time.findMany();
+    const times = await prismaClient.time.findMany();
     res.json(times);
   } catch (error) {
     console.error(error);
@@ -19,14 +20,13 @@ router.get('/times', async (req, res) => {
 router.get('/time/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const time = await prisma.time.findUnique({ where: { id: parseInt(id) } });
+    const time = await prismaClient.time.findUnique({ where: { id: parseInt(id) } });
     if (!time) {
       res.status(404).json({ error: 'Time não encontrado' });
     } else {
       res.json(time);
     }
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Erro ao buscar o time' });
   }
 });
@@ -35,7 +35,7 @@ router.get('/time/:id', async (req, res) => {
 router.post('/times', async (req, res) => {
   const { nome, fundacao } = req.body;
   try {
-    const time = await prisma.time.create({ data: { nome, fundacao } });
+    const time = await prismaClient.time.create({ data: { nome, fundacao } });
     res.status(201).json(time);
   } catch (error) {
     console.error(error);
@@ -48,11 +48,19 @@ router.put('/times/:id', async (req, res) => {
   const { id } = req.params;
   const { nome, fundacao } = req.body;
   try {
-    const updatedTime = await prisma.time.update({
-      where: { id: parseInt(id) },
+    const time = await prismaClient.time.findFirst({
+      where: {
+        id
+      }
+    });
+    if (!time) {
+      return res.status(404).send("Time não encontrado!");
+    }
+    const updatedTime = await prismaClient.time.update({
+      where: { id },
       data: { nome, fundacao },
     });
-    res.json(updatedTime);
+    res.status(200).json(updatedTime);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao atualizar o time' });
@@ -63,8 +71,16 @@ router.put('/times/:id', async (req, res) => {
 router.delete('/times/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    await prisma.time.delete({ where: { id: parseInt(id) } });
-    res.json({ message: 'Time excluído com sucesso' });
+    const time = await prismaClient.time.findFirst({
+      where: {
+        id
+      }
+    });
+    if (!time) {
+      return res.status(404).send("Time não encontrado!");
+    }
+    const deletedTime = await prismaClient.time.delete({ where: { id }});
+    res.json(deletedTime);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao excluir o time' });
