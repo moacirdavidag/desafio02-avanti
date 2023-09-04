@@ -36,7 +36,7 @@ export const createCampeonato = async (request, response) => {
 
         return response.status(201).json(campeonato);
     }
-    catch (error) {
+    catch (e) {
         return response.status(500).send(e.message);
     }
 }
@@ -74,8 +74,8 @@ export const deleteCampeonato = async (request, response) => {
         })
         return response.status(200).json(deletedCampeonato);
 
-    } catch (error) {
-        return response.status(500).json(error.message);
+    } catch (e) {
+        return response.status(500).json(e.message);
     }
 }
 

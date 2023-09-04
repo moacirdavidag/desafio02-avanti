@@ -11,23 +11,21 @@ datasource db {
 }
 
 model Campeonato {
-  id         String   @id @default(uuid())
-  nome       String
-  data_inicio   DateTime
-  data_fim      DateTime
-  created_at DateTime @default(now())
+  id          String   @id @default(uuid())
+  nome        String
+  data_inicio DateTime
+  data_fim    DateTime
+  created_at  DateTime @default(now())
+  Time        Time?    @relation(fields: [timeId], references: [id])
+  timeId      Int?
 
   @@map("campeonatos")
 }
 
-model Time{
- id             Int   @id @default(autoincrement())
- nome           String
- fundacao       DateTime
- jogadores      Jogador[]  //Relacionamento "um para muitos"
- campeonatos    Campeonato[] // Relacionamento "muitos para muitos"
-
+model Time {
+  id          Int          @id @default(autoincrement())
+  nome        String
+  fundacao    DateTime
+  //  jogadores      Jogador[]  //Relacionamento "um para muitos"
+  campeonatos Campeonato[] // Relacionamento "muitos para muitos"
 }
-
-
-
