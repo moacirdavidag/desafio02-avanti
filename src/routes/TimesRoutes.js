@@ -30,6 +30,19 @@ router.post("/times/:id",async(req,res) => {
   res.json(updatedTime);
   });
 
+// Atualizar dados de um time por ID
+router.put('/times/:id', async (req, res) => {
+  const { id } = req.params;
+  const { nome, fundacao } = req.body;
+  const updatedTime = await prisma.time.update({
+    where: { id: parseInt(id) },
+    data: { nome, fundacao },
+  });
+  res.json(updatedTime);
+});
+
+
+
 //Excluir um time por ID
 router.delete("/times/:id",async (req,res) => {
   const {id} = req.params;
