@@ -67,4 +67,4 @@ export const deleteTime = async (request, response) => {
   }
 };
 
-export default { getTimes, createTime, updateTime, deleteTime };
+export default { getTimes, getTime, createTime, updateTime, deleteTime };
