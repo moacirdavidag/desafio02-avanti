@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getTimes, deleteTime, getTime, createTime, updateTime } from "../controllers/timeController.js"
+import { getTimes, getTime , createTime , deleteTime,   updateTime } from "../controllers/timeController.js"
 
 const router = Router();
 
