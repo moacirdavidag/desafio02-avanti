@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prismaClient } from "../database/prisma-client-js.js";
 
 // Listar todos os times
 export const getTimes = async (request, response) => {
