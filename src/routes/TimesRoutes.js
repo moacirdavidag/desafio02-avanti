@@ -1,3 +1,9 @@
+import { Router } from 'express';
+import { createTimes, deleteTime, getTime, getTime,updateTime } from "../controllers/timeController.js";
+
+const router = Router();
+
+
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 
