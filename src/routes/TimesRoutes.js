@@ -1,78 +1,29 @@
 import { Router } from 'express';
-import { createTimes, deleteTime, getTime, getTime,updateTime } from "../controllers/timeController.js";
+import { getTimes, deleteTime, getTime, createTime, updateTime } from "../controllers/timeController.js"
 
 const router = Router();
 
 
 
-// Listar todos os times
-router.get('/times', async (req, res) => {
-  try {
-    const times = await prisma.time.findMany();
-    res.json(times);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar times' });
-  }
-});
+// visualização de  todos os times
+router.get('/times', getTimes);
 
-// Obter detalhes de um time por ID
-router.get('/time/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const time = await prisma.time.findUnique({ where: { id: parseInt(id) } });
-    if (!time) {
-      res.status(404).json({ error: 'Time não encontrado' });
-    } else {
-      res.json(time);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar o time' });
-  }
-});
+// Visualização de um time por ID
+router.get('/time/:id',getTime);
+ 
 
-// Criar um novo time
-router.post('/times', async (req, res) => {
-  const { nome, fundacao } = req.body;
-  try {
-    const time = await prisma.time.create({ data: { nome, fundacao } });
-    res.status(201).json(time);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao criar time' });
-  }
-});
+// Criação um novo time
+router.post('/time',createTime); 
+ 
 
 // Atualizar dados de um time por ID
-router.put('/times/:id', async (req, res) => {
-  const { id } = req.params;
-  const { nome, fundacao } = req.body;
-  try {
-    const updatedTime = await prisma.time.update({
-      where: { id: parseInt(id) },
-      data: { nome, fundacao },
-    });
-    res.json(updatedTime);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao atualizar o time' });
-  }
-});
+router.put('/time/:id',updateTime); 
 
-// Excluir um time por ID
-router.delete('/times/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    await prisma.time.delete({ where: { id: parseInt(id) } });
-    res.json({ message: 'Time excluído com sucesso' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao excluir o time' });
-  }
-});
 
-module.exports = router;
+// Exclusão um time por ID
+router.delete('/time/:id', deleteTime);
+
+export { router };
 
 
 
