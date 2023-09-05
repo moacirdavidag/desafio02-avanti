@@ -1,9 +1,7 @@
 const express = require('express');
 import { prismaClient } from "../database/prisma-client-js.js";
 
-
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // Listar todos os times
 router.get('/times', async (req, res) => {
@@ -79,7 +77,7 @@ router.delete('/times/:id', async (req, res) => {
     if (!time) {
       return res.status(404).send("Time não encontrado!");
     }
-    const deletedTime = await prismaClient.time.delete({ where: { id }});
+    const deletedTime = await prismaClient.time.delete({ where: { id } });
     res.json(deletedTime);
   } catch (error) {
     console.error(error);

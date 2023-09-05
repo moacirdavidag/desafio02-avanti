@@ -26,8 +26,9 @@ model Time {
   id          String       @id @default(uuid())
   nome        String
   fundacao    DateTime
-  //  jogadores      Jogador[]  //Relacionamento "um para muitos"
+  // jogadores   Jogador[] //Relacionamento "um para muitos"
   campeonatos Campeonato[] // Relacionamento "muitos para muitos"
 
   @@map("times")
 }
+
