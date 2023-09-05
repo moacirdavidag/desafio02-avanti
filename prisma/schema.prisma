@@ -19,6 +19,8 @@ model Campeonato {
   Time        Time?    @relation(fields: [timeId], references: [id])
   timeId      Int?
 
+  times CampeonatoTime[] // Relacionamento "muitos para muitos"
+
   @@map("campeonatos")
 }
 
@@ -28,4 +30,20 @@ model Time {
   fundacao    DateTime
   //  jogadores      Jogador[]  //Relacionamento "um para muitos"
   campeonatos Campeonato[] // Relacionamento "muitos para muitos"
+
+  campeonato CampeonatoTime[] // Relacionamento "muitos para muitos"
+}
+
+//tabela de relacionamento time e campeonato
+model CampeonatoTime {
+  campeonatoId String
+  campeonato   Campeonato @relation(fields: [campeonatoId], references: [id])
+
+  timeId       Int
+  time         Time       @relation(fields: [timeId], references: [id])
+
+  @@id([campeonatoId, timeId]) // Chave composta
+
+  @@map("campeonatos_times") // Nome da tabela
+
 }
