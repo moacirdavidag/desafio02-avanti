@@ -1,6 +1,6 @@
 import { prismaClient } from "../database/prisma-client-js.js";
 
-
+//Controladora para pegar todos os jogadores existentes
 const getJogadores = async (request, response) => {
     try {
         const jogadores = await prismaClient.jogador.findMany();
@@ -10,6 +10,7 @@ const getJogadores = async (request, response) => {
     }
 }
 
+//Controladora para pegar um jogador por id
 const getJogador = async (request, response) => {
     try {
         let idParams = request.params.id;
@@ -22,15 +23,16 @@ const getJogador = async (request, response) => {
     }
 }
 
+//Controladora para criar um novo jogador passando os parametros necessarios
 const createJogador = async (request, response) => {
     try {
-        const { nome, idade, time_jogador = null} = request.body;
+        const { nome, idade, timeId} = request.body;
 
         const jogador = await prismaClient.jogador.create({
             data: {
                 nome,
                 idade,
-                time_jogador
+                timeId
             },
         });
 
@@ -41,6 +43,7 @@ const createJogador = async (request, response) => {
     }
 }
 
+//Controladora para modificar um jogador pelo id
 const updateJogador = async (request, response) => {
     try {
         const jogador = await prismaClient.jogador.findUnique({ where: { id: request.params.id } });
@@ -59,7 +62,7 @@ const updateJogador = async (request, response) => {
     }
 }
 
-
+//Controladora para deletar um jogador pelo id
 const deleteJogador = async (request, response) => {
     try {
         const jogador = await prismaClient.jogador.findUnique({ where: { id: request.params.id } });

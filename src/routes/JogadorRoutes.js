@@ -3,19 +3,19 @@ import { createJogador, deleteJogador, getJogadores, getJogador,updateJogador } 
 
 const router = Router();
 
-//vizualização de todos os campeonatos
+//Rota para vizualizar todos os jogadores
 router.get("/jogadores", getJogadores);
 
-//vizualização de um campeonato por id
+//Rota para vizualizar um jogador pelo seu id
 router.get("/jogador/:id", getJogador);
 
-//criação de um campeonato
+//Rota para adicionar um novo jogador
 router.post("/jogador", createJogador);
 
-//atualização de um campeonato
+//Rota para alterar um jogador existente
 router.put("/jogador/:id", updateJogador);
 
-//exclusão de um campeonato
+//Rota para deletar um jogador existente
 router.delete("/jogador/:id", deleteJogador);
 
 export { router };
