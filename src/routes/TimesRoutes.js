@@ -4,11 +4,6 @@ import { createTimes, deleteTime, getTime, getTime,updateTime } from "../control
 const router = Router();
 
 
-const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-
-const router = express.Router();
-const prisma = new PrismaClient();
 
 // Listar todos os times
 router.get('/times', async (req, res) => {
