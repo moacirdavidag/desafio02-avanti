@@ -12,7 +12,7 @@ datasource db {
 
 model Jogador {
   id           String   @id @default(uuid())
-  nome         String 
+  nome         String
   idade        Int
   time_jogador Time     @relation(fields: [timeId], references: [id])
   timeId       String
@@ -30,6 +30,8 @@ model Campeonato {
   Time        Time?    @relation(fields: [timeId], references: [id])
   timeId      String?
 
+  times CampeonatoTime[] // Relacionamento "muitos para muitos"
+
   @@map("campeonatos")
 }
 
@@ -40,5 +42,17 @@ model Time {
   jogadores   Jogador[] //Relacionamento "um para muitos"
   campeonatos Campeonato[] // Relacionamento "muitos para muitos"
 
-  @@map("times")
+  campeonato CampeonatoTime[] // Relacionamento "muitos para muitos"
+}
+
+//tabela de relacionamento time e campeonato
+model CampeonatoTime {
+  campeonatoId String
+  campeonato   Campeonato @relation(fields: [campeonatoId], references: [id])
+
+  timeId String
+  time   Time   @relation(fields: [timeId], references: [id])
+
+  @@id([campeonatoId, timeId]) // Chave composta
+  @@map("campeonatos_times") // Nome da tabela
 }
