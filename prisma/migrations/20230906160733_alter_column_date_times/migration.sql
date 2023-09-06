@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Time" ALTER COLUMN "fundacao" SET DATA TYPE DATE;

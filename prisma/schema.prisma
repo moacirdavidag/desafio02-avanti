@@ -27,8 +27,7 @@ model Campeonato {
   data_inicio DateTime
   data_fim    DateTime
   created_at  DateTime @default(now())
-  Time        Time?    @relation(fields: [timeId], references: [id])
-  timeId      String?
+  Time        Time[]
 
   times CampeonatoTime[] // Relacionamento "muitos para muitos"
 
@@ -38,7 +37,7 @@ model Campeonato {
 model Time {
   id          String       @id @default(uuid())
   nome        String
-  fundacao    DateTime
+  fundacao    DateTime @db.Date
   jogadores   Jogador[] //Relacionamento "um para muitos"
   campeonatos Campeonato[] // Relacionamento "muitos para muitos"
 

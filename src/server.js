@@ -6,6 +6,8 @@ const app = express();
 
 import { router as jogadorRoutes } from "./routes/JogadorRoutes.js";
 import { router as campeonatoRoutes } from "./routes/CampeonatoRoutes.js";
+import { router as timeRoutes } from "./routes/TimesRoutes.js";
+
 // Configurações da aplicação
 const PORT = process.env.PORT || 3000;
 
@@ -20,6 +22,7 @@ app.get("/", (req, res) => {
 
 app.use(jogadorRoutes);
 app.use(campeonatoRoutes);
+app.use(timeRoutes);
 
 // Inicialização do servidor
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

@@ -29,8 +29,8 @@ export const createCampeonato = async (request, response) => {
         const campeonato = await prismaClient.campeonato.create({
             data: {
                 nome,
-                data_inicio,
-                data_fim,
+                data_inicio: new Date(data_inicio),
+                data_fim: new Date(data_fim),
             },
         });
 
