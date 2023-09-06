@@ -38,7 +38,7 @@ export const createCampeonato = async (request, response) => {
             return response.status(201).json(campeonato);
         }
         else{
-            return response.status(500).send('Data de início maior que data de fim');
+            return response.status(400).send('Data de início maior que data de fim');
         }
     }
     catch (e) {
@@ -50,7 +50,7 @@ export const updateCampeonato = async (request, response) => {
     try {
         const campeonato = await prismaClient.campeonato.findUnique({ where: { id: request.params.id } });
         if (!campeonato) {
-            return response.status(404).json({ err: 'Não achei o Campeonato' });
+            return response.status(404).json({ err: 'Campeonato não encontrado' });
         }
         const updatedCampeonato = await prismaClient.campeonato.update({
             where: {

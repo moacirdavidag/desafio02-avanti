@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Jogador {
-  id String @id @default(uuid())
-  nome String
-  idade Int
-  time_jogador Time @relation(fields: [timeId], references: [id])
-  timeId String
-  created_at DateTime @default(now())
+  id           String   @id @default(uuid())
+  nome         String 
+  idade        Int
+  time_jogador Time     @relation(fields: [timeId], references: [id])
+  timeId       String
+  created_at   DateTime @default(now())
 
   @@map("jogadores")
 }
@@ -37,9 +37,8 @@ model Time {
   id          String       @id @default(uuid())
   nome        String
   fundacao    DateTime
-   jogadores      Jogador[]  //Relacionamento "um para muitos"
+  jogadores   Jogador[] //Relacionamento "um para muitos"
   campeonatos Campeonato[] // Relacionamento "muitos para muitos"
 
   @@map("times")
 }
-
