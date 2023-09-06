@@ -26,6 +26,38 @@ const getJogador = async (request, response) => {
     }
 }
 
+// Retorna a lista de jogadores de um time específico
+
+const getJogadoresByTime = async (request, response) => {
+    try {
+        const { timeId } = request.params;
+
+        const time = await prismaClient.time.findFirst({
+            where: {
+                id: timeId
+            }
+        });
+
+        if (!time) {
+            return response.status(404).send("Nenhum time foi encontrado!");
+        }
+
+        const jogadores = await prismaClient.time.findFirst({
+            where: {
+                id: timeId
+            },
+            include: {
+                jogadores: true
+            }
+        });
+
+        return response.status(200).send(jogadores);
+
+    } catch (error) {
+        return response.status(500).send(`Ocorreu um erro: ${error.message}`);
+    }
+}
+
 //Controladora para criar um novo jogador passando os parametros necessarios
 const createJogador = async (request, response) => {
     try {
@@ -85,4 +117,4 @@ const deleteJogador = async (request, response) => {
     }
 }
 
-export { getJogadores, createJogador, deleteJogador, getJogador, updateJogador };
+export { getJogadores, getJogadoresByTime, createJogador, deleteJogador, getJogador, updateJogador };
