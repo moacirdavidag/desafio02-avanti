@@ -4,7 +4,7 @@ import { prismaClient } from "../database/prisma-client-js.js";
 export const getTimes = async (request, response) => {
   try {
     const times = await prismaClient.time.findMany();
-    response.json(times);
+    response.status(200).json(times);
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: 'Erro ao buscar times' });
@@ -39,6 +39,76 @@ export const createTime = async (request, response) => {
     response.status(500).json({ error: 'Erro ao criar time \n' + error.message });
   }
 };
+
+// Retorna todos os times de um campeonato específico
+
+export const getTimesByCampeonato = async (request, response) => {
+  try {
+    const { campeonatoId } = request.params;
+
+    const campeonato = await prismaClient.campeonato.findFirst({
+      where: {
+        id: campeonatoId
+      }
+    });
+
+    if (!campeonato) {
+      return response.status(404).send("Campeonato não encontrado!");
+    }
+
+    const times = await prismaClient.campeonatoTime.findMany({
+      where: {
+        campeonatoId
+      }, include: {
+        time: true
+      }
+    })
+
+    return response.status(200).send(times);
+
+  } catch (error) {
+    return response.status(500).send(`Ocorreu um erro: ${error.message}`);
+  }
+}
+
+// Criar um novo time com um campeonato
+
+export const createTimeWithCampeonato = async (request, response) => {
+  try {
+    const { nome, fundacao, campeonatoId } = request.body;
+
+    const campeonato = await prismaClient.campeonato.findFirst({
+      where: {
+        id: campeonatoId
+      }
+    });
+
+    if (!campeonato) {
+      return response.status(404).send("Campeonato não encontrado!");
+    }
+
+    const timeCampeonato = await prismaClient.campeonatoTime.create({
+      data: {
+        time: {
+          create: {
+            nome,
+            fundacao: new Date(fundacao),
+          }
+        },
+        campeonato: {
+          connect: {
+            id: campeonatoId
+          }
+        }
+      }
+    })
+
+    return response.status(201).send(timeCampeonato);
+
+  } catch (error) {
+    return response.status(500).send(`Ocorreu um erro: ${error.message}`);
+  }
+}
 
 // Atualizar dados de um time por ID
 export const updateTime = async (request, response) => {
