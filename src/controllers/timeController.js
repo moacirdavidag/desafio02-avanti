@@ -56,11 +56,16 @@ export const getTimesByCampeonato = async (request, response) => {
       return response.status(404).send("Campeonato não encontrado!");
     }
 
-    const times = await prismaClient.campeonatoTime.findMany({
+    const times = await prismaClient.campeonato.findFirst({
       where: {
-        campeonatoId
-      }, include: {
-        time: true
+        id: campeonatoId
+      },
+      include: {
+        times_campeonatos: {
+          select: {
+            timeId: true
+          }
+        }
       }
     })
 

@@ -27,9 +27,9 @@ model Campeonato {
   data_inicio DateTime
   data_fim    DateTime
   created_at  DateTime @default(now())
-  Time        Time[]
+  times        Time[]
 
-  times CampeonatoTime[] // Relacionamento "muitos para muitos"
+  times_campeonatos CampeonatoTime[] // Relacionamento "muitos para muitos"
 
   @@map("campeonatos")
 }
