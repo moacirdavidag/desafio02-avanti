@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require('express');
 import { prismaClient } from "../database/prisma-client-js.js";
 
@@ -84,8 +85,34 @@ router.delete('/times/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao excluir o time' });
   }
 });
+=======
+import { Router } from 'express';
+import { getTimes, getTime , createTime , deleteTime,   updateTime } from "../controllers/timeController.js"
 
-module.exports = router;
+const router = Router();
+
+
+
+// visualização de  todos os times
+router.get('/times', getTimes);
+
+// Visualização de um time por ID
+router.get('/time/:id',getTime);
+ 
+
+// Criação um novo time
+router.post('/time',createTime); 
+ 
+
+// Atualizar dados de um time por ID
+router.put('/time/:id',updateTime); 
+
+>>>>>>> d0f6b7188f1024ab777a3fe65fa0d8ee0a7ce64e
+
+// Exclusão um time por ID
+router.delete('/time/:id', deleteTime);
+
+export { router };
 
 
 
