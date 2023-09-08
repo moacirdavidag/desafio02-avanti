@@ -63,6 +63,16 @@ const createJogador = async (request, response) => {
     try {
         const { nome, idade, timeId } = request.body;
 
+        const time = await prismaClient.time.findFirst({
+            where: {
+                id: timeId
+            }
+        })
+
+        if (!time) {
+            return response.status(404).send("O time passado por id não foi encontrado!");
+        }
+
         const jogador = await prismaClient.jogador.create({
             data: {
                 nome,
@@ -81,6 +91,21 @@ const createJogador = async (request, response) => {
 //Controladora para modificar um jogador pelo id
 const updateJogador = async (request, response) => {
     try {
+        const { timeId } = request.body;
+
+        if (typeof timeId !== null || typeof timeId !== undefined) {
+            const time = await prismaClient.time.findFirst({
+                where: {
+                    id: timeId
+                }
+            })
+
+            if (!time) {
+                return response.status(404).send("O time passado por id não foi encontrado!");
+            }
+
+        }
+
         const jogador = await prismaClient.jogador.findUnique({ where: { id: request.params.id } });
         if (!jogador) {
             return response.status(404).json({ err: 'Jogador não existe' });
@@ -89,7 +114,9 @@ const updateJogador = async (request, response) => {
             where: {
                 id: request.params.id
             },
-            data: request.body
+            data: {
+                ...request.body
+            }
         });
         return response.status(200).json(updatedJogador)
     } catch (e) {

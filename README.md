@@ -40,3 +40,101 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 ```
 
 ## Documentação da API
+
+### Jogador
+
+#### GET /jogadores 
+
+**Exemplo de URL**: http://localhost:3000/jogadores
+
+**Descrição**: Retorna todos os jogadores armazenados no banco de dados.
+
+**Response**: application/json, HTTP Status 200 (OK).
+
+<br />
+
+#### GET /jogador/:id 
+
+**Exemplo de URL**: http://localhost:3000/jogador/9857abfc-8d4f-4834-8bee-b23c7230a454
+
+**Descrição**: Retorna um jogador pelo seu id.
+
+**Caso exista o jogador passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("Jogador não encontrado!").
+
+#### POST /jogador 
+
+**Exemplo de URL**: http://localhost:3000/jogador/
+
+**Descrição**: Insere um novo jogador no banco de dados.
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String,
+    "idade": Int,
+    "timeId:" String
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+    "nome:" "Pedro",
+    "idade": 25,
+    "timeId: "b8c46372-3266-4b39-86fe-baafb148b828"
+}
+```
+
+**Caso o jogador seja inserido com sucesso:**
+**Response**: application/json, HTTP Status 201 (Retorna o objeto do jogador criado).
+
+**Caso o time passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 404 ("O time passado por id não foi encontrado!").
+
+#### PUT /jogador/:id 
+
+**Exemplo de URL**: http://localhost:3000/jogador/ddc9f36a-a12f-4a4b-9f6a-334efebea264
+
+**Descrição**: Atualiza o registro de um jogador no banco de dados a partir do seu id.
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String (OPCIONAL),
+    "idade": Int (OPCIONAL),
+    "timeId:" String (OPCIONAL)
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+    "nome:" "Pedro",
+    "idade": 30,
+    "timeId: "b8c46372-3266-4b39-86fe-baafb148b828"
+}
+```
+
+**Caso o jogador seja inserido com sucesso:**
+**Response**: application/json, HTTP Status 201 (201).
+
+**Caso o time passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 404 ("O time passado por id não foi encontrado!").
+
+#### DELETE /jogador/:id 
+
+**Exemplo de URL**: http://localhost:3000/jogador/9857abfc-8d4f-4834-8bee-b23c7230a454
+
+**Descrição**: Exclui um jogador pelo seu id.
+
+**Caso exista o jogador passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("Jogador não encontrado!").
