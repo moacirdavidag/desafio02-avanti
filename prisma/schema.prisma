@@ -47,10 +47,10 @@ model Time {
 //tabela de relacionamento time e campeonato
 model CampeonatoTime {
   campeonatoId String
-  campeonato   Campeonato @relation(fields: [campeonatoId], references: [id])
+  campeonato   Campeonato @relation(fields: [campeonatoId], references: [id], onDelete: Cascade)
 
   timeId String
-  time   Time   @relation(fields: [timeId], references: [id])
+  time   Time   @relation(fields: [timeId], references: [id], onDelete: Cascade)
 
   @@id([campeonatoId, timeId]) // Chave composta
   @@map("campeonatos_times") // Nome da tabela
