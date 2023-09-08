@@ -138,3 +138,25 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 
 **Caso contrário:**
 **Response**: application/json, HTTP Status 404 ("Jogador não encontrado!").
+
+### CampeonatoTime
+
+**Descrição** Define uma tabela de relação entre as entidades "Campeonato" e "time", permitindo a associação de múltiplos times a um campeonato e vice-versa, criando assim um relacionamento many-to-many (muitos para muitos) entre essas duas entidades.
+
+## Estrutura
+
+`campeonatoId:` Este campo é do tipo String e serve como uma chave estrangeira que faz referência ao ID de um campeonato. Isso indica qual campeonato está associado a este registro na tabela "CampeonatoTime".
+
+`campeonato:` Este campo utiliza a diretiva `@relation` para estabelecer uma relação com a entidade "Campeonato". Ele especifica que a relação é baseada no campo campeonatoId deste modelo e faz referência ao campo id da entidade "Campeonato". 
+
+A opção `onDelete: Cascade` indica que, se um campeonato for excluído, todas as associações correspondentes na tabela "CampeonatoTime" também serão excluídas.
+
+`timeId:` Este campo é do tipo String e funciona de maneira semelhante ao campo campeonatoId, mas em relação a um time.
+
+`time:` Assim como o campo campeonato, este campo utiliza a diretiva @relation para estabelecer uma relação com a entidade "Time". Ele especifica que a relação é baseada no campo timeId deste modelo e faz referência ao campo id da entidade "Time". A opção onDelete: Cascade também se aplica aqui, garantindo que as associações sejam excluídas se um time for removido.
+
+## chave composta: 
+`@@id([campeonatoId, timeId])` define uma chave composta para o modelo "CampeonatoTime". Isso significa que a combinação dos valores nos campos campeonatoId e timeId deve ser única na tabela. Essa chave composta garante que um time não pode ser associado ao mesmo campeonato mais de uma vez.
+
+## nome da tabela:
+`@@map("campeonatos_times")` especifica o nome da tabela no banco de dados onde os registros do modelo "CampeonatoTime" serão armazenados. Neste caso, a tabela será chamada "campeonatos_times".
