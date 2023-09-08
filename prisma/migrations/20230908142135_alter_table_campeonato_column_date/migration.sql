@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "campeonatos" ALTER COLUMN "data_inicio" SET DATA TYPE TIMESTAMP(3),
+ALTER COLUMN "data_fim" SET DATA TYPE TIMESTAMP(3);

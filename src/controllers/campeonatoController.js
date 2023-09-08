@@ -51,6 +51,8 @@ export const updateCampeonato = async (request, response) => {
 
         const campeonato = await prismaClient.campeonato.findUnique({ where: { id: request.params.id } });
 
+        console.log(new Date(data_inicio))
+
         if (!campeonato) {
             return response.status(404).json({ err: 'Campeonato não encontrado' });
         }
@@ -64,9 +66,9 @@ export const updateCampeonato = async (request, response) => {
                 id: request.params.id
             },
             data: {
+                ...request.body,
                 data_inicio: new Date(data_inicio),
                 data_fim: new Date(data_fim),
-                ...request.body
             }
         });
         return response.status(200).json(updatedCampeonato)

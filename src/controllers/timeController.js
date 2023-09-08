@@ -131,7 +131,10 @@ export const updateTime = async (request, response) => {
     }
     const updatedTime = await prismaClient.time.update({
       where: { id },
-      data: { nome, fundacao: new Date(fundacao) },
+      data: {
+        ...request.body,
+        fundacao: new Date(fundacao)
+      },
     });
     response.status(200).json(updatedTime);
   } catch (error) {
