@@ -15,15 +15,14 @@ export const getTimes = async (request, response) => {
 export const getTime = async (request, response) => {
   const { id } = request.params;
   try {
-    const time = await prismaClient.time.findUnique({ where: { id: parseInt(id) } });
+    const time = await prismaClient.time.findUnique({ where: { id } });
     if (!time) {
       response.status(404).json({ error: 'Time não encontrado' });
     } else {
       response.json(time);
     }
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ error: 'Erro ao buscar o time' });
+    response.status(500).json(`Ocorreu um erro: ${error.message}`);
   }
 };
 
@@ -117,30 +116,47 @@ export const createTimeWithCampeonato = async (request, response) => {
 
 // Atualizar dados de um time por ID
 export const updateTime = async (request, response) => {
-  const { id } = request.params;
-  const { nome, fundacao } = request.body;
   try {
-    const updatedTime = await prismaClient.time.update({
-      where: { id: parseInt(id) },
-      data: { nome, fundacao },
+    const { id } = request.params;
+    const { nome, fundacao } = request.body;
+
+    const time = await prismaClient.time.findFirst({
+      where: {
+        id
+      }
     });
-    response.json(updatedTime);
+
+    if (!time) {
+      return response.status(404).send("Nenhum time foi encontrado!");
+    }
+    const updatedTime = await prismaClient.time.update({
+      where: { id },
+      data: { nome, fundacao: new Date(fundacao) },
+    });
+    response.status(200).json(updatedTime);
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ error: 'Erro ao atualizar o time' });
+    response.status(500).json(`Ocorreu um erro: ${error.message}`);
   }
 };
 
 // Excluir um time por ID
 export const deleteTime = async (request, response) => {
-  const { id } = request.params;
   try {
-    await prismaClient.time.delete({ where: { id: parseInt(id) } });
-    response.json({ message: 'Time excluído com sucesso' });
+    const { id } = request.params;
+
+    const time = await prismaClient.time.findFirst({
+      where: {
+        id
+      }
+    });
+
+    if (!time) {
+      return response.status(404).send("Nenhum time foi encontrado!");
+    }
+
+    const deletedTime = await prismaClient.time.delete({ where: { id } });
+    response.status(200).json(deletedTime);
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ error: 'Erro ao excluir o time' });
+    response.status(500).json(`Ocorreu um erro: ${error.message}`);
   }
 };
-
-export default { getTimes, getTime, createTime, updateTime, deleteTime };

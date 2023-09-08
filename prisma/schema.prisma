@@ -24,8 +24,8 @@ model Jogador {
 model Campeonato {
   id          String   @id @default(uuid())
   nome        String
-  data_inicio DateTime
-  data_fim    DateTime
+  data_inicio DateTime @db.Date
+  data_fim    DateTime @db.Date
   created_at  DateTime @default(now())
   times        Time[]
 
