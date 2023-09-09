@@ -214,8 +214,8 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 ```
 {
   "nome": "Brasileirão",
-  "data_inicio": "2013-02-14T13:15:03-08:00",
-  "data_fim":"2014-02-14T13:15:03-08:00"
+  "data_inicio": "2013-02-14",
+  "data_fim":"2014-02-14"
 }
 ```
 
@@ -236,3 +236,50 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 
 **Caso contrário:**
 **Response**: application/json, HTTP Status 404 ("Campeonato não encontrado!").
+
+### Time
+
+#### GET /timesCampeonato/:id 
+
+**Exemplo de URL**: http://localhost:3000/timesCampeonato/8c5cf5d4-2cb4-4597-9930-110bf0759058
+
+**Descrição**: Retorna todos os times que estão participando de um campeonato.
+
+**Caso exista o campeonato passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("campeonato não encontrado!").
+
+#### POST /timesCampeonato
+
+**Exemplo de URL**: http://localhost:3000/timeCampeonato
+
+**Descrição**: Insere um novo time no banco de dados com um campeonato existente.
+
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String (OPCIONAL),
+    "fundacao": Date,
+    "campeonatoId:" String
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+  "nome": "Brasileirão",
+  "fundacao": "2013-02-14",
+  "campeonatoId":"2014-02-14"
+}
+```
+
+**Caso tudo ocorra bem:**
+**Response**: application/json, HTTP Status 200 (Objeto time criado).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("campeonato não encontrado!").
+
