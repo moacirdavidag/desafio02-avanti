@@ -239,6 +239,28 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 
 ### Time
 
+#### GET /times 
+
+**Exemplo de URL**: http://localhost:3000/times
+
+**Descrição**: Retorna todos os times armazenados no banco de dados.
+
+**Response**: application/json, HTTP Status 200 (OK).
+
+<br />
+
+#### GET /time/:id 
+
+**Exemplo de URL**: http://localhost:3000/time/9857abfc-8d4f-4834-8bee-b23c7230a454
+
+**Descrição**: Retorna um time pelo seu id.
+
+**Casa tenha sido passado pelos parâmetros um ID válido de time:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("Time não encontrado").
+
 #### GET /timesCampeonato/:id 
 
 **Exemplo de URL**: http://localhost:3000/timesCampeonato/8c5cf5d4-2cb4-4597-9930-110bf0759058
@@ -250,6 +272,31 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 
 **Caso contrário:**
 **Response**: application/json, HTTP Status 404 ("campeonato não encontrado!").
+
+#### POST /time 
+
+**Exemplo de URL**: http://localhost:3000/time
+
+**Descrição**: Insere um novo time no banco de dados.
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String,
+    "fundacao": Date
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+    "nome:" "Flamengo",
+    "fundacao": "2023-09-09"
+}
+```
+
+**Response**: application/json, HTTP Status 201 (Retorna o objeto do time criado).
 
 #### POST /timesCampeonato
 
@@ -283,3 +330,43 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 **Caso contrário:**
 **Response**: application/json, HTTP Status 404 ("campeonato não encontrado!").
 
+#### PUT /time/:id 
+
+**Exemplo de URL**: http://localhost:3000/time/ddc9f36a-a12f-4a4b-9f6a-334efebea264
+
+**Descrição**: Atualiza o registro de um time no banco de dados a partir do seu id.
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String (OPCIONAL),
+    "fundacao": Date (OPCIONAL)
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+    "nome:" "Palmeiras",
+    "fundacao": "2022-09-09"
+}
+```
+
+**Caso o time seja inserido com sucesso:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso o time passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 404 ("Nenhum time foi encontrado!").
+
+#### DELETE /time/:id 
+
+**Exemplo de URL**: http://localhost:3000/time/9857abfc-8d4f-4834-8bee-b23c7230a454
+
+**Descrição**: Exclui um time pelo seu id.
+
+**Caso exista o time passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("Nenhum time foi encontrado!").

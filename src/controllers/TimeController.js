@@ -19,7 +19,7 @@ export const getTime = async (request, response) => {
     if (!time) {
       response.status(404).json({ error: 'Time não encontrado' });
     } else {
-      response.json(time);
+      response.status(200).json(time);
     }
   } catch (error) {
     response.status(500).json(`Ocorreu um erro: ${error.message}`);
