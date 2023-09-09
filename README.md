@@ -139,24 +139,87 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 **Caso contrário:**
 **Response**: application/json, HTTP Status 404 ("Jogador não encontrado!").
 
-### CampeonatoTime
+### campeonato
+#### GET /campeonato
 
-**Descrição** Define uma tabela de relação entre as entidades "Campeonato" e "time", permitindo a associação de múltiplos times a um campeonato e vice-versa, criando assim um relacionamento many-to-many (muitos para muitos) entre essas duas entidades.
+**Exemplo de URL**: http://localhost:3000/campeonato
+**Descrição**: Retorna todos os campeonatos armazenado no banco de dados.
+**response**: application/json, HTTP Status 200 (ok).
 
-## Estrutura
+<br>
 
-`campeonatoId:` Este campo é do tipo String e serve como uma chave estrangeira que faz referência ao ID de um campeonato. Isso indica qual campeonato está associado a este registro na tabela "CampeonatoTime".
+### GET /campeonato/:id
 
-`campeonato:` Este campo utiliza a diretiva `@relation` para estabelecer uma relação com a entidade "Campeonato". Ele especifica que a relação é baseada no campo campeonatoId deste modelo e faz referência ao campo id da entidade "Campeonato". 
+**Exemplo da URL** http://localhost:3000/campeonato/b8c46372-3266-4b39-86fe-baafb148b828
+**descrição** Retorna um campeonato pelo seu id.
+**caso exista um campeonato passado o ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Satus 200 (OK).
 
-A opção `onDelete: Cascade` indica que, se um campeonato for excluído, todas as associações correspondentes na tabela "CampeonatoTime" também serão excluídas.
 
-`timeId:` Este campo é do tipo String e funciona de maneira semelhante ao campo campeonatoId, mas em relação a um time.
+#### POST/campeonato
+**Exemplo de URL**: http://localhost:3000/campeonato/
+**Descrição** Insere um novo campeonato no banco de dados.
+**corpo da requisição** em JSON:
 
-`time:` Assim como o campo campeonato, este campo utiliza a diretiva @relation para estabelecer uma relação com a entidade "Time". Ele especifica que a relação é baseada no campo timeId deste modelo e faz referência ao campo id da entidade "Time". A opção onDelete: Cascade também se aplica aqui, garantindo que as associações sejam excluídas se um time for removido.
+````
+    "nome": String,
+    "data_inicio": Date,
+    "data_fim": Date,
 
-## chave composta: 
-`@@id([campeonatoId, timeId])` define uma chave composta para o modelo "CampeonatoTime". Isso significa que a combinação dos valores nos campos campeonatoId e timeId deve ser única na tabela. Essa chave composta garante que um time não pode ser associado ao mesmo campeonato mais de uma vez.
+````
+**exemplo de corpo da requisição**
 
-## nome da tabela:
-`@@map("campeonatos_times")` especifica o nome da tabela no banco de dados onde os registros do modelo "CampeonatoTime" serão armazenados. Neste caso, a tabela será chamada "campeonatos_times".
+````
+    {
+    "nome": "brasileirão",
+    "dataInicio": "2023-09-01",
+    "dataFim": "2023-12-31",
+    }
+````
+**caso a data de ínicio for maior que de fim**
+**Response**: application/json, HTTP Status 400 ("Data de início maior do que a data final!")
+
+
+**caso o campeonato seja inserido com sucesso:**
+**Response**: application/json, HTTP Status 201 (retorna o objeto do campeonato criado).
+
+**Caso o campeonato passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 500 (ERRO)
+
+#### PUT /campeonato/id ####
+
+**Exemplo de URL**: http://localhost:3000/campeonato/b8c46372-3266-4b39-86fe-baafb148b828
+
+**Descrição:** Atualiza o registo de um campeonato no banco de dados a partir de seu Id.
+
+**Corpo da requisição em JSON:**
+
+````
+    "nome": String,
+    "data_inicio": Date,
+    "data_fim": Date,
+
+````
+
+**Caso o campeonato seja atualizado com sucesso:**
+**Response:** application/json, HTTP Status 201 (201).
+
+**Caso o campeonato passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 404 ("'Campeonato não encontrado'")
+
+**caso a data de ínicio for maior que de fim**
+**Response**: application/json, HTTP Status 400 ("Data de início maior do que a data final!")
+
+### DELETE /campeonato/id ####
+**Exemplo de URL**: http://localhost:3000/campeonato/b8c46372-3266-4b39-86fe-baafb148b828
+**Descrição:** Exclui um campeonato pelo seu id.
+
+**Caso exista um campeonato passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("campeonato não encontrado!").
+
+**caso a data de ínicio for maior que de fim**
+**Response**: application/json, HTTP Status 400 ("Data de início maior do que a data final!")
+
