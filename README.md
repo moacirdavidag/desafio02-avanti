@@ -273,7 +273,7 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 {
   "nome": "Brasileirão",
   "fundacao": "2013-02-14",
-  "campeonatoId":"2014-02-14"
+  "campeonatoId":"8c5cf5d4-2cb4-4597-9930-110bf0759058"
 }
 ```
 
