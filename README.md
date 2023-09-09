@@ -139,6 +139,107 @@ A URL padrão do PostgreSQL em sua máquina é o localhost (127.0.0.1) e a porta
 **Caso contrário:**
 **Response**: application/json, HTTP Status 404 ("Jogador não encontrado!").
 
+### Campeonato
+
+#### GET /campeonatos 
+
+**Exemplo de URL**: http://localhost:3000/campeonatos
+
+**Descrição**: Retorna todos os campeonatos armazenados no banco de dados.
+
+**Response**: application/json, HTTP Status 200 (OK).
+
+<br />
+
+#### GET /campeonato/:id 
+
+**Exemplo de URL**: http://localhost:3000/campeonato/8c5cf5d4-2cb4-4597-9930-110bf0759058
+
+**Descrição**: Retorna um campeonato pelo seu id.
+
+**Caso exista o campeonato passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("campeonato não encontrado!").
+
+#### POST /campeonato 
+
+**Exemplo de URL**: http://localhost:3000/campeonato/
+
+**Descrição**: Insere um novo campeonato no banco de dados.
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String,
+    "data_inicio": DateTime,
+    "data_fim:" DateTime
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+  "nome": "Libertadores",
+  "data_inicio": "2013-02-14T13:15:03-08:00",
+  "data_fim":"2014-02-14T13:15:03-08:00"
+}
+```
+
+**Caso o campeonato seja inserido com sucesso:**
+**Response**: application/json, HTTP Status 201 (Retorna o objeto do campeonato criado).
+
+**Caso o campeonato passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 404 ("O campeonato passado por id não foi encontrado!").
+
+#### PUT /campeonato/:id 
+
+**Exemplo de URL**: http://localhost:3000/jogador/ddc9f36a-a12f-4a4b-9f6a-334efebea264
+
+**Descrição**: Atualiza o registro de um jogador no banco de dados a partir do seu id.
+
+**Corpo da requisição:** em JSON:
+
+```
+{
+    "nome": String (OPCIONAL),
+    "data_inicio": Int,
+    "data_fim:" String
+}
+```
+**Exemplo de corpo da requisição:**
+
+```
+{
+  "nome": "Brasileirão",
+  "data_inicio": "2013-02-14T13:15:03-08:00",
+  "data_fim":"2014-02-14T13:15:03-08:00"
+}
+```
+
+**Caso o  seja inserido com sucesso:**
+**Response**: application/json, HTTP Status 201 (201).
+
+**Caso o time passado por id não exista e/ou seja encontrado:**
+**Response**: application/json, HTTP Status 404 ("O campeonato passado por id não foi encontrado!").
+
+#### DELETE /campeonato/:id 
+
+**Exemplo de URL**: http://localhost:3000/campeonato/8c5cf5d4-2cb4-4597-9930-110bf0759058
+
+**Descrição**: Exclui um campeonato pelo seu id.
+
+**Caso exista o campeonato passado pelo ID nos parâmetros da requisição:**
+**Response**: application/json, HTTP Status 200 (OK).
+
+**Caso contrário:**
+**Response**: application/json, HTTP Status 404 ("Campeonato não encontrado!").
+
+
+
+
 ### CampeonatoTime
 
 **Descrição** Define uma tabela de relação entre as entidades "Campeonato" e "time", permitindo a associação de múltiplos times a um campeonato e vice-versa, criando assim um relacionamento many-to-many (muitos para muitos) entre essas duas entidades.

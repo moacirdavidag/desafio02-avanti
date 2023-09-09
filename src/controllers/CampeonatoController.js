@@ -16,7 +16,12 @@ export const getCampeonato = async (request, response) => {
         const campeonato = await prismaClient.campeonato.findUnique({
             where: { id: idParams },
         })
-        response.status(200).json(campeonato);
+        if (!campeonato) {
+            response.status(404).send("Campeonato não encontrado!");
+        }
+        else{
+            response.status(200).json(campeonato);
+        }
     } catch (e) {
         return response.status(500).send(e.message);
     }
